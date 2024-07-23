@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"gitlab.com/golanggin/initial/shadow/internal/http/controllers"
 	"gitlab.com/golanggin/initial/shadow/internal/http/routes"
@@ -24,10 +25,10 @@ func main() {
 	}
 
 	// Initialize ManufacturerService with the MySQL connection
-	manufacturerService := services.NewManufacturerService(mysql)
+	// manufacturerService := services.NewManufacturerService(mysql)
 
 	// Initialize ManufacturerController with the ManufacturerService
-	manufacturerController := controllers.ManufacturerController(manufacturerService)
+	// manufacturerController := controllers.ManufacturerController(manufacturerService)
 
 	// Connect to MongoDB
 	mongo := &mongodb.MongoDB{}
@@ -35,8 +36,11 @@ func main() {
 	if err != nil {
 		fmt.Println("Error connecting to MongoDB:", err)
 	}
-	userLogsService := services.NewUserLogsService(mongo)
-	userLogsController := controllers.NewUserLogsController(userLogsService)
+	fmt.Println("AKAVAARTT")
+	dentsService := services.NewDentsService(mongo)
+	dentsController := &controllers.DentsController{}
+	dentsController.SetService(dentsService)
 
-	routes.SetupRoutes(userLogsController, manufacturerController)
+	routes.SetupRoutes(dentsController)
+
 }
